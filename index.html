@@ -1,0 +1,1292 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heat Shield Roof Coatings</title>
+  <meta name="description" content="Heat Shield Roof Coatings commercial roof restoration website draft.">
+  <style>
+    :root {
+      --ink: #101827;
+      --panel: #172234;
+      --panel-2: #0d1320;
+      --red: #c9382c;
+      --blue: #0f7cbf;
+      --site-blue: #0b4f8a;
+      --site-blue-2: #0f7cbf;
+      --line: #d7dee8;
+      --soft: #d9ecfb;
+      --text: #263241;
+      --muted: #627186;
+      --white: #fff;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(180deg, rgba(8,47,86,.94), rgba(11,79,138,.96)),
+        var(--site-blue);
+      letter-spacing: 0;
+    }
+    img, video { max-width: 100%; display: block; }
+    a { color: inherit; }
+    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .heatshield-watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      z-index: 9;
+      width: min(70vw, 980px);
+      height: min(44vw, 620px);
+      pointer-events: none;
+      opacity: .155;
+      filter: drop-shadow(0 0 30px rgba(255, 78, 24, .42));
+      transform: translate(-50%, -50%);
+    }
+    .heatshield-watermark img {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+    }
+    .heatshield-watermark .rolling-flames {
+      position: absolute;
+      z-index: 3;
+      inset: 10% 4%;
+      border-radius: 50%;
+      opacity: .55;
+      mix-blend-mode: screen;
+      background:
+        radial-gradient(ellipse at 8% 70%, rgba(255,42,10,.95) 0 9%, transparent 22%),
+        radial-gradient(ellipse at 18% 56%, rgba(255,178,28,.9) 0 8%, transparent 21%),
+        radial-gradient(ellipse at 30% 68%, rgba(255,70,18,.92) 0 9%, transparent 23%),
+        radial-gradient(ellipse at 44% 54%, rgba(255,220,64,.82) 0 8%, transparent 22%),
+        radial-gradient(ellipse at 58% 69%, rgba(255,58,18,.9) 0 10%, transparent 24%),
+        radial-gradient(ellipse at 74% 56%, rgba(255,160,26,.86) 0 8%, transparent 21%),
+        radial-gradient(ellipse at 88% 68%, rgba(255,45,12,.9) 0 9%, transparent 22%);
+      filter: blur(10px) saturate(1.35);
+      animation: flameSweep 8s linear infinite;
+      transform-origin: center;
+    }
+    .fireball-share {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      place-items: center;
+      pointer-events: none;
+      background: radial-gradient(circle at center, rgba(16,24,39,.55), rgba(16,24,39,0) 58%);
+    }
+    .fireball-share.active { display: grid; animation: fireballFade 2.9s ease forwards; }
+    .fireball-core {
+      position: relative;
+      width: min(74vw, 640px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(255,255,255,.98) 0 7%, rgba(255,232,90,.96) 8% 18%, rgba(255,90,20,.9) 19% 36%, rgba(201,56,44,.74) 37% 56%, transparent 57%);
+      filter: blur(.2px) saturate(1.25);
+      animation: fireballBurst 2.7s cubic-bezier(.2,.82,.2,1) forwards;
+    }
+    .fireball-core::before,
+    .fireball-core::after {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 20deg, transparent 0 7%, rgba(255,66,15,.92) 8% 12%, transparent 13% 20%, rgba(255,177,30,.9) 21% 25%, transparent 26% 38%, rgba(201,56,44,.9) 39% 45%, transparent 46% 100%);
+      filter: blur(10px);
+      animation: fireSpin 2.5s linear forwards;
+    }
+    .fireball-core::after {
+      animation-direction: reverse;
+      opacity: .82;
+      transform: scale(.76);
+    }
+    .fireball-core img {
+      position: relative;
+      z-index: 2;
+      width: 66%;
+      opacity: 0;
+      filter: drop-shadow(0 0 28px rgba(255,255,255,.75));
+      animation: fireLogoReveal 2.7s ease forwards;
+    }
+    @keyframes fireballBurst {
+      0% { transform: scale(.06) rotate(-18deg); opacity: 0; }
+      18% { opacity: 1; }
+      62% { transform: scale(1.04) rotate(3deg); opacity: 1; }
+      100% { transform: scale(1.55) rotate(0); opacity: 0; }
+    }
+    @keyframes fireSpin {
+      from { transform: rotate(0deg) scale(.7); opacity: .95; }
+      to { transform: rotate(280deg) scale(1.35); opacity: 0; }
+    }
+    @keyframes fireLogoReveal {
+      0%, 24% { opacity: 0; transform: scale(.7); }
+      42%, 78% { opacity: .95; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.12); }
+    }
+    @keyframes fireballFade {
+      0%, 78% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+    .heatshield-watermark::before,
+    .heatshield-watermark::after {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      inset: 18% 42% 16% -24%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 70% 50%, rgba(255,232,94,.95), transparent 28%),
+        radial-gradient(circle at 48% 48%, rgba(255,88,24,.88), transparent 44%),
+        radial-gradient(circle at 24% 50%, rgba(201,56,44,.72), transparent 62%);
+      filter: blur(18px);
+      transform-origin: right center;
+      animation: flameRoll 7.5s ease-in-out infinite;
+    }
+    .heatshield-watermark::after {
+      inset: 4% 50% 12% -46%;
+      opacity: .62;
+      animation-duration: 9.5s;
+      animation-delay: -2.5s;
+    }
+    @keyframes flameRoll {
+      0% { transform: translateX(16px) translateY(8px) scaleX(.88) scaleY(.82) rotate(-4deg); opacity: .48; }
+      35% { transform: translateX(-22px) translateY(-10px) scaleX(1.22) scaleY(1.08) rotate(3deg); opacity: .84; }
+      70% { transform: translateX(10px) translateY(-18px) scaleX(1.06) scaleY(1.18) rotate(-2deg); opacity: .72; }
+      100% { transform: translateX(16px) translateY(8px) scaleX(.88) scaleY(.82) rotate(-4deg); opacity: .48; }
+    }
+    @keyframes flameSweep {
+      0% { transform: translateX(-38%) translateY(10%) scaleX(.85) scaleY(.72) skewX(-8deg); opacity: .22; }
+      18% { opacity: .58; }
+      50% { transform: translateX(0) translateY(-2%) scaleX(1.08) scaleY(1.02) skewX(4deg); opacity: .68; }
+      82% { opacity: .54; }
+      100% { transform: translateX(38%) translateY(8%) scaleX(.9) scaleY(.76) skewX(-6deg); opacity: .20; }
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(13, 19, 32, .96);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 76px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    .brand img {
+      width: 74px;
+      height: 48px;
+      object-fit: contain;
+      background: var(--white);
+      border-radius: 6px;
+    }
+    .navlinks {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: #edf3fb;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+    .navlinks a { text-decoration: none; }
+    .quote {
+      background: var(--red);
+      color: var(--white);
+      padding: 12px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      background:
+        linear-gradient(90deg, rgba(15,25,41,.96) 0%, rgba(15,25,41,.88) 48%, rgba(15,25,41,.72) 100%),
+        url("./_codex_assets/completed_jobs/boars_head_tuscan_arizona/photos/wide-metal-roof-arizona.jpg") center/cover;
+      color: var(--white);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, .9fr);
+      gap: 42px;
+      align-items: center;
+      min-height: 650px;
+      padding: 66px 0;
+    }
+    .eyebrow {
+      display: inline-flex;
+      padding: 9px 14px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      color: #ffd1cc;
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+    h1 {
+      font-size: 64px;
+      line-height: .98;
+      margin: 22px 0 18px;
+      color: var(--white);
+    }
+    h1 span { color: var(--red); }
+    .hero p {
+      max-width: 650px;
+      font-size: 19px;
+      line-height: 1.6;
+      color: #dbe6f3;
+    }
+    .hero-slogan {
+      display: block;
+      margin-top: 14px;
+      color: #fff;
+      font-family: "Arial Narrow", Impact, Arial, Helvetica, sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      text-shadow: 0 3px 14px rgba(0,0,0,.34);
+    }
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 900;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+    }
+    .button.primary { background: var(--red); color: var(--white); }
+    .button.secondary { border-color: rgba(255,255,255,.5); color: var(--white); }
+    .hero-card {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 22px 80px rgba(0,0,0,.3);
+    }
+    .hero-card video {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: var(--panel-2);
+    }
+    .hero-card figcaption {
+      padding: 16px 18px;
+      color: #eaf2fb;
+      font-weight: 800;
+    }
+
+    section {
+      padding: 72px 0;
+      background: linear-gradient(180deg, #eaf6ff, #d7ecfb);
+    }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 28px;
+      align-items: end;
+      margin-bottom: 30px;
+    }
+    h2 {
+      margin: 0;
+      font-size: 38px;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+    .section-head p {
+      margin: 0;
+      max-width: 560px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .band { background: linear-gradient(180deg, #cfe7f9, #b9dcf5); }
+    .dark { background: var(--panel-2); color: var(--white); }
+    .dark h2 { color: var(--white); }
+    .dark .section-head p { color: #bdc9d8; }
+    #jobs {
+      background:
+        linear-gradient(180deg, rgba(231,244,253,.96), rgba(198,225,245,.94)),
+        linear-gradient(135deg, rgba(201,56,44,.08), rgba(15,124,191,.12));
+    }
+    #jobs .section-head {
+      border-bottom: 4px solid #102642;
+      padding-bottom: 18px;
+    }
+    #jobs .section-head h2 {
+      font-family: "Arial Narrow", Impact, Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: #102642;
+    }
+    #jobs .section-head p {
+      color: #43566c;
+      font-weight: 800;
+    }
+
+    .service-grid, .benefit-grid, .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .service-showcase {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .service-visual-card {
+      position: relative;
+      min-height: 235px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.42);
+      background: #102642;
+      box-shadow: 0 16px 36px rgba(16,24,39,.14);
+    }
+    .service-visual-card img {
+      width: 100%;
+      height: 100%;
+      min-height: 235px;
+      object-fit: cover;
+      opacity: .82;
+    }
+    .service-visual-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 34%, rgba(11,31,54,.86));
+    }
+    .service-visual-card span {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 14px;
+      z-index: 1;
+      color: var(--white);
+      font-family: "Arial Narrow", Impact, Arial, Helvetica, sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      text-shadow: 0 2px 12px rgba(0,0,0,.45);
+    }
+    .rv-hero-panel {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+      gap: 22px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
+    .rv-hero-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 4px solid rgba(255,255,255,.88);
+      box-shadow: 0 18px 46px rgba(16,24,39,.18);
+      background: #102642;
+    }
+    .rv-system-copy {
+      border-radius: 8px;
+      padding: 26px;
+      color: #fff;
+      background:
+        linear-gradient(135deg, rgba(16,38,66,.98), rgba(12,79,138,.90)),
+        linear-gradient(90deg, rgba(201,56,44,.22), transparent),
+        url("./_codex_assets/conklin/diamond-plate-rust-user.jpg") center/cover;
+      box-shadow: 0 18px 46px rgba(16,24,39,.18);
+      border: 1px solid rgba(255,255,255,.26);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .rv-system-copy h3 {
+      margin: 0 0 12px;
+      font-family: "Arial Narrow", Impact, Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: .4px;
+    }
+    .rv-system-copy p {
+      margin: 0 0 14px;
+      color: #e8f3fd;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+    .rv-feature-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .rv-feature-list li {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: center;
+      color: #f3f8ff;
+      font-weight: 900;
+      line-height: 1.3;
+    }
+    .rv-feature-list b {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 8px 16px rgba(0,0,0,.22);
+    }
+    .rv-process-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .rv-process-strip span {
+      min-height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 6px;
+      background: rgba(255,255,255,.92);
+      color: #102642;
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: 12px;
+      text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+    }
+    .rv-lifetime-badge {
+      border-radius: 8px;
+      padding: 14px 16px;
+      background: linear-gradient(90deg, #c9382c, #7d1510);
+      color: #fff;
+      font-family: "Arial Narrow", Impact, Arial, Helvetica, sans-serif;
+      font-size: 24px;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+    }
+    .rv-system-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .rv-system-card {
+      border-radius: 8px;
+      padding: 20px;
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(16,24,39,.12);
+      box-shadow: 0 12px 28px rgba(16,24,39,.12);
+    }
+    .rv-system-card h3 {
+      margin: 0 0 8px;
+      font-family: "Arial Narrow", Impact, Arial, Helvetica, sans-serif;
+      font-size: 24px;
+      line-height: 1;
+      text-transform: uppercase;
+      color: #102642;
+    }
+    .rv-system-card p {
+      margin: 0;
+      color: #43566c;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+    .rv-warranty-note {
+      border-left: 6px solid var(--red);
+      border-radius: 8px;
+      padding: 18px 20px;
+      background: rgba(255,255,255,.94);
+      color: #102642;
+      font-weight: 800;
+      line-height: 1.55;
+    }
+    .tile {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px;
+      background: var(--white);
+      min-height: 170px;
+    }
+    .tile h3 { margin: 0 0 10px; color: var(--ink); font-size: 20px; }
+    .tile p { margin: 0; color: var(--muted); line-height: 1.55; }
+    .product-board {
+      display: grid;
+      gap: 18px;
+    }
+    .product-category {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.34);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(245,250,255,.58), rgba(40,69,95,.30)),
+        url("./_codex_assets/conklin/diamond-plate-rust-user.jpg") center/cover;
+      padding: 22px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.28),
+        inset 0 -18px 38px rgba(0,0,0,.12),
+        0 14px 36px rgba(16,24,39,.12);
+    }
+    .product-category h3 {
+      margin: 0 0 8px;
+      color: #f8fbff;
+      font-size: 22px;
+      text-shadow: 0 2px 8px rgba(0,0,0,.42);
+    }
+    .product-category p {
+      margin: 0 0 16px;
+      color: #f3f8ff;
+      line-height: 1.55;
+      text-shadow: 0 1px 7px rgba(0,0,0,.34);
+    }
+    .product-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .product-tags span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      padding: 0 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(211,220,230,.82));
+      color: #101827;
+      font-weight: 800;
+      font-size: 13px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 5px 16px rgba(0,0,0,.16);
+    }
+    .source-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+    .source-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: var(--white);
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+    .conklin-section {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(35,107,164,.92), rgba(20,92,151,.88)),
+        linear-gradient(135deg, #3aa3df, #0f5f9d);
+      color: var(--white);
+    }
+    .conklin-section h2 {
+      color: var(--white);
+      text-shadow: 0 2px 14px rgba(0,0,0,.28);
+    }
+    .conklin-section .section-head p {
+      color: #d9ebfb;
+    }
+    .conklin-media {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 20px;
+      align-items: stretch;
+      margin-bottom: 26px;
+    }
+    .conklin-logo-card {
+      display: grid;
+      place-items: center;
+      min-height: 210px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255,255,255,.94);
+      padding: 28px;
+    }
+    .conklin-logo-card img {
+      width: min(360px, 100%);
+      object-fit: contain;
+    }
+    .flag-card {
+      position: relative;
+      min-height: 210px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #101827;
+    }
+    .flag-card video,
+    .flag-card iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 122%;
+      height: 122%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      opacity: .88;
+      border: 0;
+      pointer-events: none;
+    }
+    .flag-products {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+      padding: 22px;
+      background: linear-gradient(90deg, rgba(16,24,39,.74), rgba(16,24,39,.28));
+    }
+    .flag-products h3 {
+      margin: 0;
+      color: var(--white);
+      font-size: 26px;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-shadow: 0 2px 14px rgba(0,0,0,.35);
+    }
+    .flag-product-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .flag-product-list span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.34);
+      background: rgba(255,255,255,.16);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 900;
+      backdrop-filter: blur(3px);
+    }
+
+    .job-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+      gap: 28px;
+      align-items: start;
+    }
+    .project-block + .project-block {
+      margin-top: 58px;
+      padding-top: 46px;
+      border-top: 1px solid var(--line);
+    }
+    .job-copy {
+      position: sticky;
+      top: 100px;
+      border: 1px solid rgba(255,255,255,.34);
+      border-radius: 8px;
+      padding: 24px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.94), rgba(217,236,251,.90)),
+        linear-gradient(90deg, rgba(201,56,44,.08), rgba(255,255,255,0) 32%, rgba(15,124,191,.10));
+      box-shadow: 0 16px 42px rgba(16,24,39,.12);
+    }
+    .job-copy .eyebrow {
+      background: #102642;
+      border-color: #102642;
+      color: #fff;
+      border-radius: 6px;
+      letter-spacing: 0;
+    }
+    .job-copy h2 {
+      font-family: "Arial Narrow", Impact, Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: #102642;
+      font-size: 36px;
+      line-height: 1;
+      margin-top: 18px;
+      padding-left: 14px;
+      border-left: 6px solid var(--red);
+    }
+    .job-copy p {
+      color: #34465b;
+      line-height: 1.58;
+      font-weight: 700;
+    }
+    .job-copy strong {
+      color: #0b4f8a;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+    .partner-badge {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      min-height: 46px;
+      margin-top: 16px;
+      padding: 0 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      color: var(--ink);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+    .partner-logos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .network-logo {
+      margin-top: 22px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      text-decoration: none;
+      display: block;
+    }
+    .project-logo-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .project-logo-stack a {
+      text-decoration: none;
+    }
+    .project-logo-stack img {
+      width: 100%;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      object-fit: contain;
+      padding: 12px;
+    }
+    .project-logo-stack .primary-logo {
+      aspect-ratio: 16 / 9;
+      padding: 10px;
+      object-fit: contain;
+    }
+    .project-logo-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+    }
+    .project-logo-stack .secondary-logo {
+      aspect-ratio: 4 / 3;
+      min-height: 118px;
+    }
+    .project-logo-stack .dark-logo {
+      background: #13181f;
+      border-color: #2b3442;
+      padding: 0;
+    }
+    .network-logo img {
+      width: min(260px, 100%);
+      margin: 0 auto;
+    }
+    .network-logo p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
+      text-align: center;
+    }
+    .partner-logos a {
+      display: block;
+      text-decoration: none;
+    }
+    .partner-logos img {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      padding: 10px;
+    }
+    .partner-logos img.dark-logo {
+      background: #13181f;
+      border-color: #2b3442;
+      padding: 0;
+    }
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .media-grid img, .media-grid video {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #0b1220;
+      border: 4px solid rgba(255,255,255,.88);
+      box-shadow: 0 14px 34px rgba(16,24,39,.18);
+    }
+    .media-grid .wide { grid-column: 1 / -1; aspect-ratio: 16 / 7; }
+
+    .process-grid {
+      counter-reset: step;
+    }
+    .step {
+      background: #101827;
+      border: 1px solid rgba(255,255,255,.12);
+      color: #dfe9f6;
+      border-radius: 8px;
+      padding: 22px;
+      min-height: 160px;
+    }
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--red);
+      color: var(--white);
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+    .step h3 { margin: 0 0 8px; color: var(--white); }
+    .step p { margin: 0; color: #b8c6d6; line-height: 1.55; }
+    .step ul {
+      margin: 12px 0 0;
+      padding-left: 18px;
+      color: #b8c6d6;
+      line-height: 1.45;
+    }
+
+    .store-preview {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 28px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      background: var(--white);
+    }
+    .store-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .store-list div {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      padding: 16px;
+      border-radius: 8px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    footer {
+      background: var(--panel-2);
+      color: #c8d4e3;
+      padding: 26px 0;
+      text-align: center;
+    }
+
+    @media (max-width: 940px) {
+      .nav { align-items: flex-start; flex-direction: column; padding: 14px 0; }
+      .navlinks { flex-wrap: wrap; }
+      .hero-grid, .job-layout, .store-preview, .conklin-media, .conklin-proof-grid, .service-showcase, .rv-hero-panel, .rv-system-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 46px; }
+      .service-grid, .benefit-grid, .process-grid, .contact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .job-copy { position: static; }
+    }
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 24px, 1180px); }
+      .service-grid, .benefit-grid, .process-grid, .contact-grid, .media-grid, .partner-logos, .store-list { grid-template-columns: 1fr; }
+      h1 { font-size: 38px; }
+      h2 { font-size: 30px; }
+      .job-copy h2 { font-size: 28px; }
+      .rv-process-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .heatshield-watermark {
+        width: 76vw;
+        height: 48vw;
+        opacity: .11;
+      }
+      .section-head { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="fireball-share" aria-hidden="true">
+    <div class="fireball-core">
+      <img src="./_codex_assets/brand/heatshield-watermark-transparent.png" alt="">
+    </div>
+  </div>
+  <div class="heatshield-watermark" aria-hidden="true">
+    <img src="./_codex_assets/brand/heatshield-watermark-transparent.png" alt="">
+    <span class="rolling-flames"></span>
+  </div>
+  <header class="topbar">
+    <div class="shell nav">
+      <a class="brand" href="#home">
+        <img src="./_codex_assets/heatshield-logo-small.webp" alt="Heat Shield Roof Coatings logo">
+        <span>Heat Shield Roof Coatings</span>
+      </a>
+      <nav class="navlinks" aria-label="Main navigation">
+        <a href="#services">Services</a>
+        <a href="#jobs">Completed Jobs</a>
+        <a href="#conklin">Conklin</a>
+        <a href="#process">Process</a>
+        <a href="#store">Store</a>
+        <a class="quote" href="#contact">Free Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div>
+          <span class="eyebrow">American-made Conklin products</span>
+          <h1>Commercial Roofing Built to <span>Last Decades</span></h1>
+          <p>Heat Shield Roof Coatings restores and protects commercial roof systems with inspection-first service, detail sealing, waterproofing, and American-made Conklin coating systems. Qualifying systems are available with up to a 20-year warranty.</p>
+          <strong class="hero-slogan">Built with American strength and a lot of pride.</strong>
+          <div class="hero-actions">
+            <a class="button primary" href="#contact">Get a Free Estimate</a>
+            <a class="button secondary" href="#jobs">View Our Work</a>
+          </div>
+        </div>
+        <figure class="hero-card">
+          <video src="./_codex_assets/videos/hero-commercial-roofing-loop.mp4" autoplay muted loop playsinline controls poster="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/thumbs/team-sealing-metal-roof-thumb.jpg"></video>
+          <figcaption>Our process: inspect, clean, repair seams and penetrations, then apply the correct Conklin coating system.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Services Offered</h2>
+          <p>Commercial roof coating, restoration, repair, and specialty roof services organized into clear sections.</p>
+        </div>
+        <div class="service-showcase">
+          <div class="service-visual-card">
+            <img src="./_codex_assets/service_illustrations/metal-roof-prep.jpg" alt="Metal roof prepared for commercial roof coating">
+            <span>Metal roof prep</span>
+          </div>
+          <div class="service-visual-card">
+            <img src="./_codex_assets/service_illustrations/commercial-roof-process.jpg" alt="Commercial roofing process on a flat roof">
+            <span>Commercial restoration</span>
+          </div>
+          <div class="service-visual-card">
+            <img src="./_codex_assets/service_illustrations/rubber-roof.jpg" alt="Rubber roof surface">
+            <span>Rubber roof systems</span>
+          </div>
+        </div>
+        <div class="service-grid">
+          <article class="tile"><h3>Metal Roof Coatings</h3><p>Seam treatment, fastener detail work, waterproofing, and reflective coating systems.</p></article>
+          <article class="tile"><h3>Commercial Roof Restoration</h3><p>Restore usable roof systems and avoid unnecessary tear-off when the roof still has life.</p></article>
+          <article class="tile"><h3>Repairs & Sealing</h3><p>Practical repairs around penetrations, transitions, seams, edges, and parapets.</p></article>
+          <article class="tile"><h3>Specialty Roof Systems</h3><p>Options for shops, warehouses, churches, RV roofs, and specialty surfaces.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="rv-services" class="band">
+      <div class="shell">
+        <div class="section-head">
+          <h2>RV Roof Systems</h2>
+          <p>Professional Conklin protection for fifth wheels, travel trailers, toy haulers, and RV roof surfaces that need waterproofing without unnecessary replacement.</p>
+        </div>
+        <div class="rv-hero-panel">
+          <img src="./_codex_assets/rv_roof_systems/rv-roof-systems-affinity.jpg" alt="Heat Shield RV roof systems with Affinity warranty information">
+          <div class="rv-system-copy">
+            <div>
+              <h3>Protect Your RV Roof</h3>
+              <p>Every RV roof starts with a close inspection of the surface, seams, vents, caps, transitions, and leak-prone areas. The right system is selected from what the roof actually needs.</p>
+            </div>
+            <ul class="rv-feature-list">
+              <li><b>1</b><span>Stop leaks with focused seam, vent, and edge detailing.</span></li>
+              <li><b>2</b><span>Add seamless waterproof protection over the prepared roof.</span></li>
+              <li><b>3</b><span>Reflect heat and UV to help extend roof life.</span></li>
+            </ul>
+            <div class="rv-process-strip">
+              <span>Inspect</span>
+              <span>Clean</span>
+              <span>Seal</span>
+              <span>Coat</span>
+            </div>
+            <div class="rv-lifetime-badge">Affinity: True Lifetime Warranty Path</div>
+          </div>
+        </div>
+        <div class="rv-system-grid">
+          <article class="rv-system-card"><h3>Membrane System</h3><p>Reliable entry-level protection with a waterproof reflective coating. A practical fit for budget-conscious RV owners when the roof is a good candidate.</p></article>
+          <article class="rv-system-card"><h3>Fabric Reinforced System</h3><p>Extra strength at seams, transitions, vents, and problem areas by embedding reinforcement fabric where the roof needs added durability.</p></article>
+          <article class="rv-system-card"><h3>Affinity System</h3><p>Premium long-term urethane system built for stronger UV and weather resistance. This is the system tied to the true lifetime warranty path shown in the RV graphic.</p></article>
+        </div>
+        <div class="rv-warranty-note">
+          Warranty note: the Affinity RV roof system is presented as the premium option with a true lifetime warranty when the roof qualifies and the system is installed to the required Conklin/Heat Shield process. Final warranty eligibility depends on inspection, roof condition, prep, and system selection.
+        </div>
+      </div>
+    </section>
+
+    <section id="jobs" class="band">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Completed Jobs</h2>
+          <p>Completed commercial roof projects with cleaned photo sets, videos, locations, and partner credits ready to move into GoDaddy.</p>
+        </div>
+        <div class="job-layout project-block">
+          <aside class="job-copy">
+            <span class="eyebrow">Tuscan, Arizona</span>
+            <h2>Boar's Head Commercial Roof Restoration</h2>
+            <p>Metal roof restoration and waterproofing detail work on a commercial facility in Arizona.</p>
+            <p><strong>Part of the Quality Commercial Roofing Network.</strong></p>
+            <p>Partnered with Quality Commercial Roofing LLC and HighPoint Commercial Roofing.</p>
+            <div class="project-logo-stack">
+              <img class="primary-logo" src="./_codex_assets/brand/heatshield-job-logo-primary.jpg" alt="Heat Shield Roof Coatings logo">
+              <div class="project-logo-row">
+                <a href="https://qcroof.com/" target="_blank" rel="noopener">
+                  <img class="secondary-logo" src="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/partners/quality-commercial-roofing-network.jpg" alt="Quality Commercial Roofing Network logo">
+                </a>
+                <a href="https://qcroof.com/" target="_blank" rel="noopener">
+                  <img class="secondary-logo dark-logo" src="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/partners/quality-commercial-roofing-clean.jpg" alt="Quality Commercial Roofing LLC logo">
+                </a>
+                <img class="secondary-logo" src="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/partners/highpoint-commercial-roofing.jpg" alt="HighPoint Commercial Roofing logo">
+              </div>
+            </div>
+          </aside>
+          <div class="media-grid">
+            <img class="wide" src="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/photos/panorama-commercial-roof.jpg" alt="Commercial roof panorama">
+            <img src="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/photos/team-sealing-metal-roof.jpg" alt="Team sealing a metal roof">
+            <img src="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/photos/detail-sealant-application.jpg" alt="Detail sealant application">
+            <video src="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/videos/job-video-04.mp4" controls poster="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/thumbs/job-video-04-poster.jpg"></video>
+            <video src="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/videos/job-video-08.mp4" controls poster="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/thumbs/job-video-08-poster.jpg"></video>
+          </div>
+        </div>
+        <div class="job-layout project-block">
+          <aside class="job-copy">
+            <span class="eyebrow">Corpus Christi, Texas</span>
+            <h2>Heritage Baptist Church Roof Restoration</h2>
+            <p>Rubber roof and metal roof restoration with leak-area repairs, seam detailing, and reflective coating work.</p>
+            <p>Gallery cleaned from the CompanyCam set to avoid duplicate and weak photos.</p>
+            <div class="project-logo-stack">
+              <img class="primary-logo" src="./_codex_assets/brand/heatshield-job-logo-primary.jpg" alt="Heat Shield Roof Coatings logo">
+              <div class="project-logo-row">
+                <a href="https://qcroof.com/" target="_blank" rel="noopener">
+                  <img class="secondary-logo" src="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/partners/quality-commercial-roofing-network.jpg" alt="Quality Commercial Roofing Network logo">
+                </a>
+                <a href="https://qcroof.com/" target="_blank" rel="noopener">
+                  <img class="secondary-logo dark-logo" src="./_codex_assets/completed_jobs/boars_head_tuscan_arizona/partners/quality-commercial-roofing-clean.jpg" alt="Quality Commercial Roofing LLC logo">
+                </a>
+              </div>
+            </div>
+            <a class="partner-badge" href="https://qcroof.com/" target="_blank" rel="noopener">Partnered with Quality Commercial Roofing LLC</a>
+          </aside>
+          <div class="media-grid">
+            <img class="wide" src="./_codex_assets/completed_jobs/heritage_baptist_church_corpus_christi/photos/heritage-baptist-11.jpg" alt="Rubber roof and metal roof overview">
+            <img src="./_codex_assets/completed_jobs/heritage_baptist_church_corpus_christi/photos/heritage-baptist-05.jpg" alt="Patching throughout rubber roof">
+            <img src="./_codex_assets/completed_jobs/heritage_baptist_church_corpus_christi/photos/heritage-baptist-06.jpg" alt="Sealant and coating failures found">
+            <img src="./_codex_assets/completed_jobs/heritage_baptist_church_corpus_christi/photos/heritage-baptist-07.jpg" alt="Metal roof seam coating in progress">
+            <img src="./_codex_assets/completed_jobs/heritage_baptist_church_corpus_christi/photos/heritage-baptist-10.jpg" alt="Finished metal roof section">
+            <img class="wide" src="./_codex_assets/completed_jobs/heritage_baptist_church_corpus_christi/photos/heritage-baptist-14.jpg" alt="Completed rubber roof surface">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="conklin" class="conklin-section">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Conklin Products Made in America</h2>
+          <p>Material categories and system usage based on Conklin roofing product information, including eligible systems with up to 20-year warranty options.</p>
+        </div>
+        <div class="conklin-media">
+          <a class="conklin-logo-card" href="https://www.conklin.com/product-catalog/roofing-products" target="_blank" rel="noopener" aria-label="Open Conklin roofing products">
+            <img src="./_codex_assets/conklin/conklin-45-roofing-systems-logo-clean.jpg" alt="Conklin 45 years roofing systems logo">
+          </a>
+          <div class="flag-card" aria-label="Conklin product names over a waving American flag video">
+            <iframe src="https://www.youtube.com/embed/GN3nQ-zdIAI?autoplay=1&mute=1&loop=1&playlist=GN3nQ-zdIAI&controls=0&rel=0&modestbranding=1&playsinline=1" title="American flag video background" allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+            <div class="flag-products">
+              <h3>American-made Conklin Roofing Products</h3>
+              <div class="flag-product-list">
+                <span>Rust Off</span><span>Metal Ready Universal</span><span>Spunflex</span><span>Rapid Roof III</span><span>Benchmark</span><span>Equinox</span><span>PUMA XL</span><span>Affinity Base Coat</span><span>Affinity Top Coat</span><span>Tack Coat</span><span>Prime Time</span><span>Waush Away Roofing Cleaner</span><span>Wac II</span><span>Affinity Primer</span><span>Encase Metal Primer</span><span>Butyl Tape</span><span>SpunFlex Fabric</span><span>Kwik Kaulk</span><span>360-S Urethane Sealant</span><span>Flexion 2.0</span><span>Outpost TPO</span><span>Spray Foam Products</span><span>Fasteners</span><span>Pipe Boots</span><span>Walkway Pads</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="product-board">
+          <article class="product-category">
+            <h3>Metal Roof Restoration System</h3>
+            <p>Used for metal roofs where the goal is to clean, inhibit rust, reinforce seams and fasteners, then install a reflective waterproofing coating. Qualifying Conklin systems may be eligible for up to a 20-year warranty when installed to requirements.</p>
+            <div class="product-tags">
+              <span>Rust Off</span><span>Metal Ready Universal</span><span>Spunflex</span><span>Rapid Roof III</span><span>Benchmark</span><span>Equinox</span><span>PUMA XL</span>
+            </div>
+          </article>
+          <article class="product-category">
+            <h3>Membrane Roof Coating System</h3>
+            <p>Used on approved aged membrane roofs such as TPO, PVC, EPDM, CSPE, CPA, and modified bitumen when restoration is a fit.</p>
+            <div class="product-tags">
+              <span>Spunflex</span><span>Rapid Roof III</span><span>Equinox</span><span>Tack Coat</span><span>Prime Time</span>
+            </div>
+          </article>
+          <article class="product-category">
+            <h3>Coatings</h3>
+            <p>Finish and base coat options listed by Conklin for roof coating work, selected by roof type, condition, season, and project requirements.</p>
+            <div class="product-tags">
+              <span>PUMA XL</span><span>Affinity Base Coat</span><span>Affinity Top Coat</span><span>Equinox</span><span>Rapid Roof III Base Coat</span><span>Rapid Roof III Top Coat</span><span>Benchmark Base Coat</span><span>Benchmark Top Coat</span>
+            </div>
+          </article>
+          <article class="product-category">
+            <h3>Prep, Primers, Detail Materials</h3>
+            <p>Materials used before and during coating to support adhesion, seam treatment, fastener detail work, penetrations, and transitions.</p>
+            <div class="product-tags">
+              <span>Waush Away Roofing Cleaner</span><span>Wac II</span><span>Affinity Primer</span><span>Conklin Encase Metal Primer</span><span>Tack Coat</span><span>Prime Time</span><span>Butyl Tape</span><span>SpunFlex Fabric</span><span>Kwik Kaulk</span><span>360-S Urethane Sealant</span>
+            </div>
+          </article>
+          <article class="product-category">
+            <h3>Single-Ply, TPO, Spray Foam, and Accessories</h3>
+            <p>Conklin also lists single-ply membrane systems, Flexion 2.0 accessories, Outpost TPO accessories, spray foam products, fasteners, plates, boots, corners, walkway pads, and tools. Some Conklin single-ply and coating systems list 20-year warranty options when project requirements are met.</p>
+            <div class="product-tags">
+              <span>Flexion 2.0</span><span>Outpost TPO</span><span>Spray Foam Products</span><span>Fasteners</span><span>Fastener Plates</span><span>Pipe Boots</span><span>Inside/Outside Corners</span><span>Walkway Pads</span><span>Wet Film Gauge</span>
+            </div>
+          </article>
+        </div>
+        <div class="source-links">
+          <a href="https://www.conklin.com/product-catalog/roofing-products" target="_blank" rel="noopener">Conklin Roofing Catalog</a>
+          <a href="https://www.conklin.com/roof-coatings" target="_blank" rel="noopener">Metal Roof System</a>
+          <a href="https://www.conklin.com/single-ply-membranes" target="_blank" rel="noopener">Membrane Coating System</a>
+          <a href="https://www.conklin.com/product-catalog/roofing-products/coatings" target="_blank" rel="noopener">Coatings List</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="process" class="dark">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Product Usage Process</h2>
+          <p>Each roof is inspected first. Product choices depend on the existing roof type, condition, adhesion, weather, manufacturer guidance, and whether the project is eligible for up to a 20-year warranty.</p>
+        </div>
+        <div class="process-grid">
+          <article class="step"><h3>Inspect</h3><p>Identify substrate, leaks, rust, seams, ponding areas, penetrations, and whether restoration is appropriate.</p><ul><li>Document roof type</li><li>Find repair scope</li><li>Confirm product path</li></ul></article>
+          <article class="step"><h3>Prepare</h3><p>Clean and prepare the roof so primer, fabric, sealants, and coatings have a sound surface.</p><ul><li>Cleaner as needed</li><li>Rust treatment as needed</li><li>Primer when required</li></ul></article>
+          <article class="step"><h3>Detail</h3><p>Reinforce weak points before field coating so common leak areas are handled first.</p><ul><li>Seams</li><li>Fasteners</li><li>Penetrations and transitions</li></ul></article>
+          <article class="step"><h3>Coat & Verify</h3><p>Apply the selected Conklin system, check coverage, and review the finished waterproofing and reflective surface.</p><ul><li>Base/top coat as specified</li><li>Wet film checks</li><li>Warranty path reviewed when eligible</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="benefits">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Benefits</h2>
+          <p>Short, scannable value points for property owners and facility managers.</p>
+        </div>
+        <div class="benefit-grid">
+          <article class="tile"><h3>Save Money</h3><p>Restoration can reduce the cost and disruption of a full tear-off.</p></article>
+          <article class="tile"><h3>Reduce Waste</h3><p>Give existing roof systems a second life when replacement is not necessary.</p></article>
+          <article class="tile"><h3>Stop Water</h3><p>Detail sealing and waterproofing target the places roofs commonly fail.</p></article>
+          <article class="tile"><h3>Protect Longer</h3><p>Coatings add a protective layer against heat, UV, and weather exposure, with up to 20-year warranty options on qualifying systems.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="store" class="band">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Product Store</h2>
+          <p>Placeholder for the next page after the main site is cleaned up.</p>
+        </div>
+        <div class="store-preview">
+          <div>
+            <h2>Future Store Page</h2>
+            <p>We can add products, service packages, deposits, merch, or roof maintenance materials once the main site is stable.</p>
+          </div>
+          <div class="store-list">
+            <div>Coating Products</div>
+            <div>Sealants & Primers</div>
+            <div>Service Deposits</div>
+            <div>Maintenance Kits</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="dark">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Contact</h2>
+          <p>This section can become the GoDaddy contact block with form, phone, hours, and directions.</p>
+        </div>
+        <div class="contact-grid">
+          <article class="step"><h3>Call</h3><p>956 450 8450</p></article>
+          <article class="step"><h3>Email</h3><p>info@heatshieldroofcoating.com</p></article>
+          <article class="step"><h3>Location</h3><p>4703 North Doolittle Road, Edinburg, TX, USA</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">Copyright Â© 2026 Heat Shield - All Rights Reserved.</div>
+  </footer>
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has("fireball")) {
+        document.querySelector(".fireball-share")?.classList.add("active");
+      }
+    })();
+  </script>
+</body>
+</html>
+
