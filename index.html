@@ -964,6 +964,20 @@
       .section-head { display: block; }
     }
   </style>
+  <script>
+    (() => {
+      if (window.self !== window.top) {
+        try {
+          const target = new URL(window.location.href);
+          if (!target.searchParams.has("fireball")) target.searchParams.set("fireball", "1");
+          target.searchParams.set("v", "godaddy-exact");
+          window.top.location.replace(target.toString());
+        } catch (error) {
+          window.top.location.href = window.location.href;
+        }
+      }
+    })();
+  </script>
 </head>
 <body>
   <div class="fireball-share" aria-hidden="true">
