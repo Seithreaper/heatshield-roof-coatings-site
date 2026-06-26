@@ -86,7 +86,7 @@
         radial-gradient(circle at center, rgba(8,14,27,.48), rgba(8,14,27,0) 58%),
         linear-gradient(180deg, rgba(5,11,22,.18), rgba(5,11,22,0));
     }
-    .fireball-share.active { display: grid; animation: fireballFade 4.9s ease forwards; }
+    .fireball-share.active { display: grid; animation: fireballFade 6.8s ease forwards; }
     .fireworks-canvas {
       position: absolute;
       inset: 0;
@@ -106,7 +106,7 @@
       background:
         radial-gradient(circle, rgba(255,255,255,.98) 0 7%, rgba(255,232,90,.96) 8% 18%, rgba(255,90,20,.9) 19% 36%, rgba(201,56,44,.74) 37% 56%, transparent 57%);
       filter: blur(.2px) saturate(1.25);
-      animation: fireballBurst 4.4s cubic-bezier(.2,.82,.2,1) forwards;
+      animation: fireballBurst 5.8s cubic-bezier(.2,.82,.2,1) forwards;
     }
     .fireball-core::before,
     .fireball-core::after {
@@ -117,7 +117,7 @@
       background:
         conic-gradient(from 20deg, transparent 0 7%, rgba(255,66,15,.92) 8% 12%, transparent 13% 20%, rgba(255,177,30,.9) 21% 25%, transparent 26% 38%, rgba(201,56,44,.9) 39% 45%, transparent 46% 100%);
       filter: blur(10px);
-      animation: fireSpin 4.2s linear forwards;
+      animation: fireSpin 5.6s linear forwards;
     }
     .fireball-core::after {
       animation-direction: reverse;
@@ -130,7 +130,7 @@
       width: 66%;
       opacity: 0;
       filter: drop-shadow(0 0 28px rgba(255,255,255,.75));
-      animation: fireLogoReveal 4.4s ease forwards;
+      animation: fireLogoReveal 5.8s ease forwards;
     }
     @keyframes fireballBurst {
       0% { transform: scale(.06) rotate(-18deg); opacity: 0; }
@@ -982,7 +982,7 @@
         try {
           const target = new URL(window.location.href);
           if (!target.searchParams.has("fireball")) target.searchParams.set("fireball", "1");
-          target.searchParams.set("v", "godaddy-exact");
+          target.searchParams.set("v", "godaddy-fireworks-mobile");
           window.top.location.replace(target.toString());
         } catch (error) {
           window.top.location.href = window.location.href;
@@ -1309,7 +1309,9 @@
   <script>
     (() => {
       const params = new URLSearchParams(window.location.search);
-      if (params.has("fireball")) {
+      const versionTag = params.get("v") || "";
+      const shouldShowFireworks = params.has("fireball") || versionTag.includes("godaddy") || versionTag.includes("fireworks");
+      if (shouldShowFireworks) {
         const overlay = document.querySelector(".fireball-share");
         overlay?.classList.add("active");
         startFireworks(overlay);
@@ -1323,7 +1325,7 @@
         const sparks = [];
         const rockets = [];
         const started = performance.now();
-        const duration = 4300;
+        const duration = 6500;
         let lastLaunch = 0;
 
         function resize() {
@@ -1395,7 +1397,8 @@
           ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
           ctx.globalCompositeOperation = "lighter";
 
-          if (elapsed < 3000 && time - lastLaunch > 340) {
+          const launchEvery = window.innerWidth < 680 ? 250 : 320;
+          if (elapsed < 5000 && time - lastLaunch > launchEvery) {
             lastLaunch = time;
             launch(time);
           }
