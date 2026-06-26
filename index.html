@@ -95,6 +95,15 @@
       height: 100%;
       mix-blend-mode: screen;
     }
+    html.embedded-godaddy .fireball-share {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: auto;
+      left: 0;
+      height: min(100dvh, 920px);
+      min-height: 720px;
+    }
     .fireball-core {
       position: relative;
       z-index: 2;
@@ -973,12 +982,20 @@
         height: 48vw;
         opacity: .18;
       }
+      html.embedded-godaddy .fireball-share {
+        height: min(100dvh, 860px);
+        min-height: 680px;
+      }
+      html.embedded-godaddy .fireball-core {
+        width: min(84vw, 500px);
+      }
       .section-head { display: block; }
     }
   </style>
   <script>
     (() => {
       if (window.self !== window.top) {
+        document.documentElement.classList.add("embedded-godaddy");
         try {
           const target = new URL(window.location.href);
           if (!target.searchParams.has("fireball")) target.searchParams.set("fireball", "1");
@@ -1328,19 +1345,30 @@
         const duration = 6500;
         let lastLaunch = 0;
 
+        function stageSize() {
+          const embedded = document.documentElement.classList.contains("embedded-godaddy");
+          const cap = window.innerWidth < 680 ? 860 : 920;
+          return {
+            width: window.innerWidth,
+            height: embedded ? Math.min(window.innerHeight, cap) : window.innerHeight
+          };
+        }
+
         function resize() {
           const ratio = Math.min(window.devicePixelRatio || 1, 2);
-          canvas.width = Math.floor(window.innerWidth * ratio);
-          canvas.height = Math.floor(window.innerHeight * ratio);
-          canvas.style.width = `${window.innerWidth}px`;
-          canvas.style.height = `${window.innerHeight}px`;
+          const stage = stageSize();
+          canvas.width = Math.floor(stage.width * ratio);
+          canvas.height = Math.floor(stage.height * ratio);
+          canvas.style.width = `${stage.width}px`;
+          canvas.style.height = `${stage.height}px`;
           ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
         }
 
         function launch(time, forcedX) {
-          const x = forcedX ?? window.innerWidth * (.16 + Math.random() * .68);
-          const y = window.innerHeight + 28;
-          const targetY = window.innerHeight * (.15 + Math.random() * .36);
+          const stage = stageSize();
+          const x = forcedX ?? stage.width * (.16 + Math.random() * .68);
+          const y = stage.height + 28;
+          const targetY = stage.height * (.15 + Math.random() * .36);
           rockets.push({
             x,
             y,
@@ -1392,9 +1420,10 @@
 
         function draw(time) {
           const elapsed = time - started;
+          const stage = stageSize();
           ctx.globalCompositeOperation = "source-over";
           ctx.fillStyle = "rgba(5, 11, 22, .18)";
-          ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+          ctx.fillRect(0, 0, stage.width, stage.height);
           ctx.globalCompositeOperation = "lighter";
 
           const launchEvery = window.innerWidth < 680 ? 250 : 320;
@@ -1403,7 +1432,7 @@
             launch(time);
           }
           if (elapsed < 700 && rockets.length < 3) {
-            launch(time, window.innerWidth * (.34 + Math.random() * .32));
+            launch(time, stage.width * (.34 + Math.random() * .32));
           }
 
           for (let i = rockets.length - 1; i >= 0; i--) {
@@ -1448,7 +1477,7 @@
           if (elapsed < duration || sparks.length || rockets.length) {
             requestAnimationFrame(draw);
           } else {
-            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            ctx.clearRect(0, 0, stage.width, stage.height);
           }
         }
 
