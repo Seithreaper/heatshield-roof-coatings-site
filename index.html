@@ -111,27 +111,26 @@
       aspect-ratio: 1;
       display: grid;
       place-items: center;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle, rgba(255,255,255,.98) 0 7%, rgba(255,232,90,.96) 8% 18%, rgba(255,90,20,.9) 19% 36%, rgba(201,56,44,.74) 37% 56%, transparent 57%);
-      filter: blur(.2px) saturate(1.25);
+      background: transparent;
+      filter: saturate(1.35);
       animation: fireballBurst 5.8s cubic-bezier(.2,.82,.2,1) forwards;
     }
     .fireball-core::before,
     .fireball-core::after {
       content: "";
       position: absolute;
-      inset: -20%;
-      border-radius: 50%;
+      inset: -22%;
+      clip-path: polygon(50% 0, 58% 24%, 76% 8%, 73% 31%, 100% 25%, 79% 44%, 98% 58%, 72% 59%, 82% 89%, 58% 70%, 50% 100%, 42% 71%, 17% 91%, 28% 60%, 0 54%, 24% 43%, 3% 24%, 31% 31%, 27% 4%, 44% 25%);
       background:
-        conic-gradient(from 20deg, transparent 0 7%, rgba(255,66,15,.92) 8% 12%, transparent 13% 20%, rgba(255,177,30,.9) 21% 25%, transparent 26% 38%, rgba(201,56,44,.9) 39% 45%, transparent 46% 100%);
-      filter: blur(10px);
+        radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.98) 0 5%, rgba(255,228,92,.96) 8%, rgba(255,88,16,.9) 24%, rgba(176,27,12,.55) 42%, transparent 68%);
+      filter: blur(7px) drop-shadow(0 0 28px rgba(255,90,18,.9));
       animation: fireSpin 5.6s linear forwards;
     }
     .fireball-core::after {
       animation-direction: reverse;
       opacity: .82;
-      transform: scale(.76);
+      transform: rotate(22deg) scale(.82);
+      clip-path: polygon(50% 0, 61% 29%, 84% 9%, 75% 38%, 100% 48%, 72% 55%, 91% 84%, 59% 71%, 46% 100%, 39% 69%, 8% 88%, 27% 56%, 0 39%, 31% 35%, 20% 7%, 45% 28%);
     }
     .fireball-core img {
       position: relative;
@@ -1309,8 +1308,10 @@
         if (!canvas) return;
         const ctx = canvas.getContext("2d");
         const colors = ["#ffffff", "#ffd66b", "#ff4a2f", "#f4f8ff", "#4fb3ff", "#d72828"];
-        const sparks = [];
-        const rockets = [];
+      const sparks = [];
+      const smoke = [];
+      const shockwaves = [];
+      const rockets = [];
         const started = performance.now();
         const duration = 6500;
         let lastLaunch = 0;
@@ -1352,11 +1353,23 @@
           });
         }
 
-        function burst(x, y, color, size = 1) {
-          const count = Math.floor(42 + Math.random() * 34 * size);
+        function burst(x, y, color, size = 1, hero = false) {
+          const count = Math.floor((hero ? 170 : 70) * size);
+          shockwaves.push({ x, y, radius: 4, life: hero ? 38 : 24, maxLife: hero ? 38 : 24, hero });
+          for (let i = 0; i < (hero ? 28 : 12); i++) {
+            smoke.push({
+              x: x + (Math.random() - .5) * 26,
+              y: y + (Math.random() - .5) * 22,
+              vx: (Math.random() - .5) * 1.4,
+              vy: -(.25 + Math.random() * 1.1),
+              radius: 10 + Math.random() * (hero ? 34 : 18),
+              life: 48 + Math.random() * 44,
+              maxLife: 92
+            });
+          }
           for (let i = 0; i < count; i++) {
-            const angle = Math.PI * 2 * (i / count) + Math.random() * .16;
-            const speed = (2.1 + Math.random() * 5.7) * size;
+            const angle = Math.random() * Math.PI * 2;
+            const speed = (.8 + Math.pow(Math.random(), .42) * (hero ? 12.5 : 8.5)) * size;
             sparks.push({
               x,
               y,
@@ -1364,14 +1377,16 @@
               py: y,
               vx: Math.cos(angle) * speed,
               vy: Math.sin(angle) * speed,
-              life: 58 + Math.random() * 38,
-              maxLife: 96,
+              life: (hero ? 74 : 54) + Math.random() * 46,
+              maxLife: hero ? 120 : 100,
               color: Math.random() > .22 ? color : colors[Math.floor(Math.random() * colors.length)],
-              weight: .8 + Math.random() * 1.7,
-              twinkle: Math.random() * Math.PI * 2
+              weight: .65 + Math.random() * (hero ? 2.5 : 1.8),
+              twinkle: Math.random() * Math.PI * 2,
+              drag: .972 + Math.random() * .018,
+              gravity: .038 + Math.random() * .052
             });
           }
-          for (let i = 0; i < 12; i++) {
+          for (let i = 0; i < (hero ? 34 : 14); i++) {
             sparks.push({
               x,
               y,
@@ -1394,7 +1409,39 @@
           ctx.globalCompositeOperation = "source-over";
           ctx.fillStyle = "rgba(5, 11, 22, .18)";
           ctx.fillRect(0, 0, stage.width, stage.height);
+
+          for (let i = smoke.length - 1; i >= 0; i--) {
+            const puff = smoke[i];
+            puff.life -= 1;
+            puff.x += puff.vx;
+            puff.y += puff.vy;
+            puff.radius += .32;
+            const fade = Math.max(puff.life / puff.maxLife, 0) * .22;
+            const haze = ctx.createRadialGradient(puff.x, puff.y, 0, puff.x, puff.y, puff.radius);
+            haze.addColorStop(0, `rgba(185,176,160,${fade})`);
+            haze.addColorStop(1, "rgba(58,63,72,0)");
+            ctx.fillStyle = haze;
+            ctx.fillRect(puff.x - puff.radius, puff.y - puff.radius, puff.radius * 2, puff.radius * 2);
+            if (puff.life <= 0) smoke.splice(i, 1);
+          }
           ctx.globalCompositeOperation = "lighter";
+
+          if (elapsed > 1180 && elapsed < 1220 && !shockwaves.some(wave => wave.hero)) {
+            burst(stage.width * .5, stage.height * .46, "#ff4a2f", window.innerWidth < 680 ? 1.05 : 1.32, true);
+          }
+
+          for (let i = shockwaves.length - 1; i >= 0; i--) {
+            const wave = shockwaves[i];
+            wave.life -= 1;
+            wave.radius += wave.hero ? 12 : 7;
+            const fade = Math.max(wave.life / wave.maxLife, 0);
+            ctx.strokeStyle = `rgba(255,220,140,${fade * .55})`;
+            ctx.lineWidth = Math.max(1, 7 * fade);
+            ctx.beginPath();
+            ctx.arc(wave.x, wave.y, wave.radius, 0, Math.PI * 2);
+            ctx.stroke();
+            if (wave.life <= 0) shockwaves.splice(i, 1);
+          }
 
           const launchEvery = window.innerWidth < 680 ? 250 : 320;
           if (elapsed < 5000 && time - lastLaunch > launchEvery) {
@@ -1418,6 +1465,9 @@
             ctx.moveTo(rocket.px, rocket.py);
             ctx.lineTo(rocket.x, rocket.y);
             ctx.stroke();
+            if (Math.random() > .35) {
+              sparks.push({ x: rocket.x, y: rocket.y, px: rocket.x, py: rocket.y, vx: (Math.random() - .5) * 1.1, vy: 1 + Math.random() * 2.2, life: 18 + Math.random() * 14, maxLife: 32, color: "#ffd66b", weight: .7 + Math.random(), twinkle: Math.random() * 6.28, drag: .96, gravity: .04 });
+            }
             if (rocket.y <= rocket.targetY || rocket.vy > -1.4 || time - rocket.born > 1200) {
               burst(rocket.x, rocket.y, rocket.hue, .95 + Math.random() * .35);
               rockets.splice(i, 1);
@@ -1431,16 +1481,19 @@
             spark.py = spark.y;
             spark.x += spark.vx;
             spark.y += spark.vy;
-            spark.vx *= .986;
-            spark.vy = spark.vy * .986 + .055;
+            spark.vx *= spark.drag || .986;
+            spark.vy = spark.vy * (spark.drag || .986) + (spark.gravity || .055);
             const fade = Math.max(spark.life / spark.maxLife, 0);
             const twinkle = .68 + Math.sin(spark.twinkle + time * .018) * .32;
             ctx.strokeStyle = hexToRgba(spark.color, fade * twinkle);
+            ctx.shadowBlur = spark.weight > 2 ? 10 : 4;
+            ctx.shadowColor = spark.color;
             ctx.lineWidth = spark.weight;
             ctx.beginPath();
             ctx.moveTo(spark.px, spark.py);
             ctx.lineTo(spark.x, spark.y);
             ctx.stroke();
+            ctx.shadowBlur = 0;
             if (spark.life <= 0) sparks.splice(i, 1);
           }
 
