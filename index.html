@@ -1291,7 +1291,7 @@
       const smoke = [];
       const rockets = [];
         const started = performance.now();
-      const duration = 6500;
+        const duration = 4600;
       let lastLaunch = 0;
       let lastFrame = started;
       let heroBurstLaunched = false;
@@ -1306,7 +1306,7 @@
         }
 
         function resize() {
-          const ratio = Math.min(window.devicePixelRatio || 1, 2);
+          const ratio = Math.min(window.devicePixelRatio || 1, 1.35);
           const stage = stageSize();
           canvas.width = Math.floor(stage.width * ratio);
           canvas.height = Math.floor(stage.height * ratio);
@@ -1334,8 +1334,8 @@
         }
 
         function burst(x, y, color, size = 1, hero = false) {
-          const count = Math.floor((hero ? 170 : 70) * size);
-          for (let i = 0; i < (hero ? 28 : 12); i++) {
+          const count = Math.floor((hero ? 72 : 32) * size);
+          for (let i = 0; i < (hero ? 8 : 3); i++) {
             smoke.push({
               x: x + (Math.random() - .5) * 26,
               y: y + (Math.random() - .5) * 22,
@@ -1368,7 +1368,7 @@
               gravity: .038 + Math.random() * .052
             });
           }
-          for (let i = 0; i < (hero ? 34 : 14); i++) {
+          for (let i = 0; i < (hero ? 12 : 5); i++) {
             sparks.push({
               x,
               y,
@@ -1419,12 +1419,12 @@
             burst(stage.width * .5, stage.height * .46, "#ff4a2f", window.innerWidth < 680 ? 1.05 : 1.32, true);
           }
 
-          const launchEvery = window.innerWidth < 680 ? 250 : 320;
-          if (elapsed < 5000 && time - lastLaunch > launchEvery) {
+          const launchEvery = window.innerWidth < 680 ? 620 : 520;
+          if (elapsed < 3200 && time - lastLaunch > launchEvery) {
             lastLaunch = time;
             launch(time);
           }
-          if (elapsed < 700 && rockets.length < 3) {
+          if (elapsed < 420 && rockets.length < 2) {
             launch(time, stage.width * (.34 + Math.random() * .32));
           }
 
@@ -1462,14 +1462,11 @@
             const fade = Math.max(spark.life / spark.maxLife, 0);
             const twinkle = .68 + Math.sin(spark.twinkle + time * .018) * .32;
             ctx.strokeStyle = hexToRgba(spark.color, fade * twinkle);
-            ctx.shadowBlur = spark.weight > 2 ? 10 : 4;
-            ctx.shadowColor = spark.color;
             ctx.lineWidth = spark.weight;
             ctx.beginPath();
             ctx.moveTo(spark.px, spark.py);
             ctx.lineTo(spark.x, spark.y);
             ctx.stroke();
-            ctx.shadowBlur = 0;
             if (spark.life <= 0) sparks.splice(i, 1);
           }
 
