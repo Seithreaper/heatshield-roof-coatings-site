@@ -1310,12 +1310,12 @@
         const colors = ["#ffffff", "#ffd66b", "#ff4a2f", "#f4f8ff", "#4fb3ff", "#d72828"];
       const sparks = [];
       const smoke = [];
-      const shockwaves = [];
       const rockets = [];
         const started = performance.now();
       const duration = 6500;
       let lastLaunch = 0;
       let lastFrame = started;
+      let heroBurstLaunched = false;
 
         function stageSize() {
           const embedded = document.documentElement.classList.contains("embedded-godaddy");
@@ -1356,10 +1356,6 @@
 
         function burst(x, y, color, size = 1, hero = false) {
           const count = Math.floor((hero ? 170 : 70) * size);
-          shockwaves.push({
-            x, y, radius: 4, life: hero ? 38 : 24, maxLife: hero ? 38 : 24, hero,
-            jagged: Array.from({ length: hero ? 34 : 22 }, () => .68 + Math.random() * .64)
-          });
           for (let i = 0; i < (hero ? 28 : 12); i++) {
             smoke.push({
               x: x + (Math.random() - .5) * 26,
@@ -1439,28 +1435,9 @@
           }
           ctx.globalCompositeOperation = "lighter";
 
-          if (elapsed > 1180 && elapsed < 1220 && !shockwaves.some(wave => wave.hero)) {
+          if (elapsed > 1180 && !heroBurstLaunched) {
+            heroBurstLaunched = true;
             burst(stage.width * .5, stage.height * .46, "#ff4a2f", window.innerWidth < 680 ? 1.05 : 1.32, true);
-          }
-
-          for (let i = shockwaves.length - 1; i >= 0; i--) {
-            const wave = shockwaves[i];
-            wave.life -= step;
-            wave.radius += (wave.hero ? 12 : 7) * step;
-            const fade = Math.max(wave.life / wave.maxLife, 0);
-            ctx.strokeStyle = `rgba(255,220,140,${fade * .55})`;
-            ctx.lineWidth = Math.max(1, 7 * fade);
-            ctx.beginPath();
-            for (let point = 0; point < wave.jagged.length; point++) {
-              const angle = Math.PI * 2 * point / wave.jagged.length;
-              const radius = wave.radius * wave.jagged[point];
-              const px = wave.x + Math.cos(angle) * radius;
-              const py = wave.y + Math.sin(angle) * radius;
-              if (point === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-            }
-            ctx.closePath();
-            ctx.stroke();
-            if (wave.life <= 0) shockwaves.splice(i, 1);
           }
 
           const launchEvery = window.innerWidth < 680 ? 250 : 320;
