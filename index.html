@@ -115,23 +115,6 @@
       filter: saturate(1.35);
       animation: fireballBurst 5.8s cubic-bezier(.2,.82,.2,1) forwards;
     }
-    .fireball-core::before,
-    .fireball-core::after {
-      content: "";
-      position: absolute;
-      inset: -22%;
-      clip-path: polygon(50% 0, 58% 24%, 76% 8%, 73% 31%, 100% 25%, 79% 44%, 98% 58%, 72% 59%, 82% 89%, 58% 70%, 50% 100%, 42% 71%, 17% 91%, 28% 60%, 0 54%, 24% 43%, 3% 24%, 31% 31%, 27% 4%, 44% 25%);
-      background:
-        conic-gradient(from 11deg, rgba(255,255,255,.96), rgba(255,211,72,.94) 9%, rgba(255,68,10,.88) 18%, transparent 29%, rgba(187,28,12,.72) 43%, rgba(255,193,40,.92) 56%, transparent 67%, rgba(255,76,12,.86) 82%, rgba(255,244,188,.96));
-      filter: blur(7px) drop-shadow(0 0 28px rgba(255,90,18,.9));
-      animation: fireSpin 5.6s linear forwards;
-    }
-    .fireball-core::after {
-      animation-direction: reverse;
-      opacity: .82;
-      transform: rotate(22deg) scale(.82);
-      clip-path: polygon(50% 0, 61% 29%, 84% 9%, 75% 38%, 100% 48%, 72% 55%, 91% 84%, 59% 71%, 46% 100%, 39% 69%, 8% 88%, 27% 56%, 0 39%, 31% 35%, 20% 7%, 45% 28%);
-    }
     .fireball-core img {
       position: relative;
       z-index: 2;
@@ -145,10 +128,6 @@
       18% { opacity: 1; }
       48% { transform: scale(1.04) rotate(3deg); opacity: .88; }
       100% { transform: scale(1.42) rotate(0); opacity: 0; }
-    }
-    @keyframes fireSpin {
-      from { transform: rotate(0deg) scale(.7); opacity: .95; }
-      to { transform: rotate(280deg) scale(1.35); opacity: 0; }
     }
     @keyframes fireLogoReveal {
       0%, 24% { opacity: 0; transform: scale(.7); }
