@@ -926,29 +926,6 @@
       line-height: 1.45;
     }
 
-    .store-preview {
-      display: grid;
-      grid-template-columns: .9fr 1.1fr;
-      gap: 28px;
-      align-items: center;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 28px;
-      background: var(--white);
-    }
-    .store-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .store-list div {
-      background: var(--soft);
-      border: 1px solid var(--line);
-      padding: 16px;
-      border-radius: 8px;
-      font-weight: 800;
-      color: var(--ink);
-    }
 
     .contact-grid {
       display: grid;
@@ -965,14 +942,14 @@
     @media (max-width: 940px) {
       .nav { align-items: flex-start; flex-direction: column; padding: 14px 0; }
       .navlinks { flex-wrap: wrap; }
-      .hero-grid, .job-layout, .store-preview, .conklin-media, .conklin-proof-grid, .service-showcase, .rv-hero-panel, .rv-system-grid { grid-template-columns: 1fr; }
+      .hero-grid, .job-layout, .conklin-media, .conklin-proof-grid, .service-showcase, .rv-hero-panel, .rv-system-grid { grid-template-columns: 1fr; }
       h1 { font-size: 46px; }
       .service-grid, .benefit-grid, .process-grid, .contact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .job-copy { position: static; }
     }
     @media (max-width: 620px) {
       .shell { width: min(100% - 24px, 1180px); }
-      .service-grid, .benefit-grid, .process-grid, .contact-grid, .media-grid, .partner-logos, .store-list { grid-template-columns: 1fr; }
+      .service-grid, .benefit-grid, .process-grid, .contact-grid, .media-grid, .partner-logos { grid-template-columns: 1fr; }
       h1 { font-size: 38px; }
       h2 { font-size: 30px; }
       .job-copy h2 { font-size: 28px; }
@@ -1030,7 +1007,6 @@
         <a href="#jobs">Completed Jobs</a>
         <a href="#conklin">Conklin</a>
         <a href="#process">Process</a>
-        <a href="#store">Store</a>
         <a class="quote" href="#contact">Free Quote</a>
       </nav>
     </div>
@@ -1280,27 +1256,6 @@
           <article class="tile"><h3>Reduce Waste</h3><p>Give existing roof systems a second life when replacement is not necessary.</p></article>
           <article class="tile"><h3>Stop Water</h3><p>Detail sealing and waterproofing target the places roofs commonly fail.</p></article>
           <article class="tile"><h3>Protect Longer</h3><p>Coatings add a protective layer against heat, UV, and weather exposure, with up to 20-year warranty options on qualifying systems.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="store" class="band">
-      <div class="shell">
-        <div class="section-head">
-          <h2>Product Store</h2>
-          <p>Placeholder for the next page after the main site is cleaned up.</p>
-        </div>
-        <div class="store-preview">
-          <div>
-            <h2>Future Store Page</h2>
-            <p>We can add products, service packages, deposits, merch, or roof maintenance materials once the main site is stable.</p>
-          </div>
-          <div class="store-list">
-            <div>Coating Products</div>
-            <div>Sealants & Primers</div>
-            <div>Service Deposits</div>
-            <div>Maintenance Kits</div>
-          </div>
         </div>
       </div>
     </section>
