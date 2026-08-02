@@ -1297,7 +1297,7 @@
     (() => {
       const params = new URLSearchParams(window.location.search);
       const versionTag = params.get("v") || "";
-      const shouldShowFireworks = params.has("fireball") || versionTag.includes("godaddy") || versionTag.includes("fireworks");
+      const shouldShowFireworks = true;
       if (shouldShowFireworks) {
         const overlay = document.querySelector(".fireball-share");
         overlay?.classList.add("active");
